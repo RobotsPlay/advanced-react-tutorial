@@ -6,7 +6,9 @@ import {
   statelessSessions,
 } from '@keystone-next/keystone/session';
 import { Product } from './schemas/Product';
+import { ProductImage } from './schemas/ProductImage';
 import { User } from './schemas/User';
+import { insertSeedData } from './seed-data';
 
 const databaseURL =
   process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorail';
@@ -36,15 +38,21 @@ export default withAuth(
     db: {
       adapter: 'mongoose',
       url: databaseURL,
-      // TODO: add data seeding
+      async onConnect(keystone) {
+        if (process.argv.includes('--seed-data')) {
+          await insertSeedData(keystone);
+        }
+      },
     },
     lists: createSchema({
       User,
       Product,
+      ProductImage,
       // TODO: schema items here
     }),
     ui: {
       // TODO: change this for roles
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       isAccessAllowed: ({ session }) => !!session?.data,
     },
     session: withItemData(statelessSessions(sessionConfig), {
