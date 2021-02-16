@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Nav from './Nav';
 import styled from 'styled-components';
+import Nav from './Nav';
 
 const LogoStyles = styled.h1`
     font-size: 4rem;
