@@ -63,7 +63,7 @@ export default function Page({ children }) {
       <Head>
         <title>Sick Fits</title>
       </Head>
-      
+
       <GlobalStyles />
 
       <Header />
