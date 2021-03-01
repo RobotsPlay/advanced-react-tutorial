@@ -27,6 +27,7 @@ export default function paginationField() {
       const { skip } = args;
       const merged = existing ? existing.slice(0) : [];
 
+      // eslint-disable-next-line no-plusplus
       for (let i = skip; i < skip + incoming.length; ++i) {
         merged[i] = incoming[i - skip];
       }
