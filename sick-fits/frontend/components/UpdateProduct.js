@@ -42,7 +42,13 @@ export default function UpdateProduct({ id }) {
     },
   });
 
-  const { inputs, handleChange } = useForm(data?.Product);
+  const { inputs, handleChange } = useForm(
+    data?.Product || {
+      name: '',
+      description: '',
+      price: '',
+    }
+  );
 
   const [
     updateProduct,
