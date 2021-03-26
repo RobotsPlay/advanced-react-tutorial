@@ -6,12 +6,16 @@ import {
   statelessSessions,
 } from '@keystone-next/keystone/session';
 import { CartItem } from './schemas/CartItem';
+import { Order } from './schemas/Order';
+import { OrderItem } from './schemas/OrderItem';
 import { Product } from './schemas/Product';
 import { ProductImage } from './schemas/ProductImage';
+import { Role } from './schemas/Role';
 import { User } from './schemas/User';
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations/index';
+import { permissionsList } from './schemas/fields';
 
 const databaseURL =
   process.env.DATABASE_URL || 'mongodb://localhost/keystone-sick-fits-tutorail';
@@ -58,6 +62,9 @@ export default withAuth(
       Product,
       ProductImage,
       CartItem,
+      OrderItem,
+      Order,
+      Role,
     }),
     extendGraphqlSchema,
     ui: {
@@ -66,7 +73,7 @@ export default withAuth(
       isAccessAllowed: ({ session }) => !!session?.data,
     },
     session: withItemData(statelessSessions(sessionConfig), {
-      User: 'id',
+      User: `id name email role {${permissionsList.join(' ')}}`,
     }),
   })
 );
